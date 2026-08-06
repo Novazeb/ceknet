@@ -1,0 +1,13 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/api/ip"
+  to = "https://ip-api.com/json/?fields=status,message,query,isp,org,as,city,regionName,country,countryCode,lat,lon"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

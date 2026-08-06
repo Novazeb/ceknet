@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/ip",
+      "destination": "https://ip-api.com/json/?fields=status,message,query,isp,org,as,city,regionName,country,countryCode,lat,lon"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
