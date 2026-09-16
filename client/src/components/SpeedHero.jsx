@@ -107,11 +107,11 @@ export default function SpeedHero({
         </div>
 
         <div className="text-xs font-mono text-zinc-500 mt-2">
-          {currentStage === 'idle' && 'Koneksi siap diuji'}
-          {currentStage === 'ping' && 'Mengukur latensi bolak-balik (RTT)...'}
-          {currentStage === 'download' && 'Mengukur throughput unduhan...'}
-          {currentStage === 'upload' && 'Mengukur throughput unggahan...'}
-          {currentStage === 'complete' && 'Diagnostik selesai'}
+          {currentStage === 'idle' && 'Connection ready for testing'}
+          {currentStage === 'ping' && 'Measuring round-trip latency (RTT)...'}
+          {currentStage === 'download' && 'Measuring download throughput...'}
+          {currentStage === 'upload' && 'Measuring upload throughput...'}
+          {currentStage === 'complete' && 'Diagnostics completed'}
         </div>
       </div>
 
@@ -147,7 +147,7 @@ export default function SpeedHero({
           <div className="w-full h-full flex items-center justify-center border border-dashed border-zinc-800/80 rounded-lg">
             <span className="text-xs font-mono text-zinc-600 flex items-center gap-2">
               <Activity className="w-3.5 h-3.5 opacity-50" />
-              Aktivitas throughput real-time akan muncul saat pengujian berjalan
+              Real-time throughput activity will appear during testing
             </span>
           </div>
         )}
@@ -167,17 +167,17 @@ export default function SpeedHero({
           {isTesting ? (
             <>
               <RotateCcw className="w-4 h-4 animate-spin text-zinc-500" />
-              <span className="font-mono">PENGUJIAN BERJALAN...</span>
+              <span className="font-mono">TEST IN PROGRESS...</span>
             </>
           ) : currentStage === 'complete' ? (
             <>
               <RotateCcw className="w-4 h-4 text-zinc-950" />
-              <span className="font-mono">UJI ULANG</span>
+              <span className="font-mono">RETEST</span>
             </>
           ) : (
             <>
               <Play className="w-4 h-4 fill-current text-zinc-950" />
-              <span className="font-mono">MULAI TES</span>
+              <span className="font-mono">START TEST</span>
             </>
           )}
         </button>
