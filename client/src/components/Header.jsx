@@ -3,51 +3,54 @@ import { Activity, Play, RotateCcw } from 'lucide-react';
 
 export default function Header({ isTesting, currentStage, onStartTest }) {
   return (
-    <header className="bg-white border-b border-slate-200 sticky top-0 z-50 px-4 sm:px-8 py-3.5 mb-8">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+    <header className="border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-md sticky top-0 z-50 px-4 sm:px-8 py-3">
+      <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
         
-        {/* Brand Logo & Title */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-600 text-white shadow-xs">
-            <Activity className="w-5 h-5" />
+        {/* Brand Logo & Monospace Label */}
+        <div className="flex items-center gap-2.5">
+          <div className="flex items-center justify-center w-7 h-7 rounded-md bg-zinc-100 text-zinc-950 font-bold text-xs">
+            CN
           </div>
-          <div>
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+          <div className="flex items-baseline gap-2">
+            <span className="font-mono font-bold text-base text-zinc-100 tracking-tight">
               ceknet
-              <span className="text-xs font-normal text-slate-500 font-sans border-l border-slate-200 pl-2">
-                Uji Kecepatan & Diagnostik Jaringan
-              </span>
-            </h1>
+            </span>
+            <span className="text-[11px] font-mono text-zinc-500 hidden sm:inline">
+              // internet speed diagnostic
+            </span>
           </div>
         </div>
 
-        {/* Action Controls & Live Status */}
+        {/* Live Stage Pill & Quick CTA */}
         <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-100 border border-slate-200 text-xs font-medium text-slate-600">
-            <span className={`w-2 h-2 rounded-full ${isTesting ? 'bg-amber-500 animate-pulse' : 'bg-emerald-500'}`} />
-            <span>Status: <strong className="text-slate-900 uppercase font-semibold">{isTesting ? currentStage : 'Siap'}</strong></span>
+          <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-[11px] font-mono text-zinc-400">
+            <span
+              className={`w-2 h-2 rounded-full ${
+                isTesting
+                  ? 'bg-amber-400 animate-ping'
+                  : currentStage === 'complete'
+                  ? 'bg-emerald-400'
+                  : 'bg-zinc-600'
+              }`}
+            />
+            <span className="uppercase">{isTesting ? currentStage : currentStage === 'complete' ? 'selesai' : 'siap'}</span>
           </div>
 
           <button
             onClick={onStartTest}
             disabled={isTesting}
-            className={`flex items-center gap-2 px-5 py-2 rounded-lg font-medium text-sm transition-all duration-200 ${
+            className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer ${
               isTesting
-                ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
-                : 'bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white shadow-xs cursor-pointer'
+                ? 'bg-zinc-900 text-zinc-600 border border-zinc-800 cursor-not-allowed'
+                : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700'
             }`}
           >
             {isTesting ? (
-              <>
-                <RotateCcw className="w-4 h-4 animate-spin" />
-                <span>Pengujian Berlangsung...</span>
-              </>
+              <RotateCcw className="w-3.5 h-3.5 animate-spin" />
             ) : (
-              <>
-                <Play className="w-4 h-4 fill-current" />
-                <span>Mulai Tes</span>
-              </>
+              <Play className="w-3.5 h-3.5 fill-current" />
             )}
+            <span>{isTesting ? 'PENGUJIAN' : 'MULAI TES'}</span>
           </button>
         </div>
 
