@@ -6,7 +6,7 @@ export default function TestHistory({ history = [], onClearHistory }) {
   const handleExportCSV = () => {
     if (!history.length) return;
 
-    const headers = ['Waktu', 'IP', 'ISP', 'Ping (ms)', 'Jitter (ms)', 'Download (Mbps)', 'Upload (Mbps)', 'Status'];
+    const headers = ['Timestamp', 'IP', 'ISP', 'Ping (ms)', 'Jitter (ms)', 'Download (Mbps)', 'Upload (Mbps)', 'Status'];
     const rows = history.map((item) => [
       `"${item.timestamp}"`,
       `"${item.ip || 'N/A'}"`,
@@ -15,7 +15,7 @@ export default function TestHistory({ history = [], onClearHistory }) {
       item.jitter,
       item.downloadSpeed,
       item.uploadSpeed,
-      `"${item.status || 'Selesai'}"`
+      `"${item.status || 'Completed'}"`
     ]);
 
     const csvContent = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
@@ -39,7 +39,7 @@ export default function TestHistory({ history = [], onClearHistory }) {
         <div className="flex items-center gap-2">
           <History className="w-4 h-4 text-zinc-400" />
           <h3 className="text-xs font-mono uppercase tracking-wider text-zinc-300 font-semibold">
-            Riwayat Diagnostik ({history.length})
+            Diagnostic History ({history.length})
           </h3>
         </div>
 
@@ -57,7 +57,7 @@ export default function TestHistory({ history = [], onClearHistory }) {
             className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono text-zinc-500 hover:text-rose-400 bg-zinc-900 hover:bg-rose-500/10 border border-zinc-800 hover:border-rose-500/30 cursor-pointer transition-colors"
           >
             <Trash2 className="w-3 h-3" />
-            <span>HAPUS</span>
+            <span>CLEAR</span>
           </button>
         </div>
       </div>
@@ -67,7 +67,7 @@ export default function TestHistory({ history = [], onClearHistory }) {
         <table className="w-full text-left text-xs font-mono">
           <thead>
             <tr className="border-b border-zinc-800/60 text-zinc-500 text-[11px]">
-              <th className="py-2 px-2.5">Waktu</th>
+              <th className="py-2 px-2.5">Timestamp</th>
               <th className="py-2 px-2.5">Ping</th>
               <th className="py-2 px-2.5">Jitter</th>
               <th className="py-2 px-2.5 text-emerald-400">Download</th>
