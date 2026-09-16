@@ -1,51 +1,51 @@
 # ceknet
 
-ceknet adalah perangkat lunak diagnostik performa jaringan internet dan pengukuran kecepatan transfer data berbasis web. Aplikasi ini mengintegrasikan antarmuka pengguna berbasis React dengan backend Express untuk menyediakan evaluasi throughput fisik koneksi secara akurat dan efisien.
+ceknet is a web-based internet network performance diagnostic and data transfer speed measurement tool. The application integrates a React-based user interface with an Express backend to provide accurate and efficient evaluations of physical connection throughput.
 
-## Gambaran Umum
+## Overview
 
-Aplikasi ini dirancang dengan pendekatan minimalis, performa tinggi, dan efisiensi sumber daya. Seluruh metrik latensi dan bandwidth diproses secara langsung dengan visualisasi jalur SVG native tanpa ketergantungan pada pustaka grafik pihak ketiga yang berat.
+Designed with an emphasis on minimalism, performance, and resource efficiency, all latency and bandwidth metrics are processed directly with native SVG path visualizations, avoiding heavy third-party charting libraries.
 
-Pengukuran koneksi memanfaatkan titik akhir edge CDN Cloudflare untuk pengujian jaringan publik sesungguhnya, dengan fallback otomatis ke server lokal apabila koneksi eksternal tidak dapat diakses.
+Connection measurements leverage Cloudflare public edge CDN endpoints for genuine wide-area network evaluation, with automatic fallback to the local server if external connections are unavailable.
 
-## Fitur Utama
+## Key Features
 
-- Pengukuran Latensi dan Jitter: Evaluasi waktu bolak-balik (round-trip time) dan variasi stabilitas jaringan melalui serangkaian permintaan berkala.
-- Pengujian Throughput Unduh (Download): Pengukuran laju transfer data unduhan secara streaming dengan pemulusan eksponensial untuk hasil yang stabil.
-- Pengujian Throughput Unggah (Upload): Pengukuran laju transmisi muatan biner secara bertahap menuju endpoint penerima.
-- Visualisasi Real-Time Ringan: Grafik sparkline dinamis berbasis elemen SVG native untuk memantau fluktuasi bandwidth tanpa membebani browser.
-- Inspeksi Jaringan dan ISP: Identifikasi alamat IP publik, penyedia layanan internet (ISP), nomor sistem otonom (ASN), serta lokasi geografis server.
-- Analisis Kelayakan Aktivitas: Penilaian otomatis terhadap kualitas jaringan untuk skenario gaming kompetitif, streaming video 4K, dan panggilan konferensi video.
-- Riwayat Diagnostik Lokal: Penyimpanan hasil pengujian sebelumnya pada penyimpanan lokal peramban (localStorage) serta fitur ekspor data dalam format CSV.
+- Latency and Jitter Measurement: Round-trip time (RTT) and latency stability variance evaluated across consecutive samples.
+- Download Throughput Testing: Continuous streaming transfer rate measurement with exponential smoothing for stable readouts.
+- Upload Throughput Testing: Incremental binary payload transmission to verify upstream throughput.
+- Lightweight Real-Time Visualization: Dynamic SVG sparkline graph rendering bandwidth variations without browser overhead.
+- Network and ISP Inspection: Identification of public IP addresses, Internet Service Providers (ISP), Autonomous System Numbers (ASN), and geographic server locations.
+- Activity Suitability Analysis: Automated classification of network quality for competitive gaming, 4K video streaming, and video conferencing scenarios.
+- Local Diagnostic History: Diagnostic records persisted in browser localStorage with CSV export capability.
 
-## Struktur Direktori
+## Directory Structure
 
 ```
 ceknet/
-├── client/                 # Antarmuka frontend (React + Vite)
+├── client/                 # Frontend interface (React + Vite)
 │   ├── src/
-│   │   ├── components/     # Komponen UI (Header, SpeedHero, MetricsPanel, TestHistory)
-│   │   ├── services/       # Mesin pengujian jaringan (speedTestEngine.js)
-│   │   ├── App.jsx         # Komponen utama dan manajemen alur pengujian
-│   │   ├── index.css       # Konfigurasi Tailwind CSS dan tema visual
-│   │   └── main.jsx        # Titik masuk aplikasi React
+│   │   ├── components/     # UI components (Header, SpeedHero, MetricsPanel, TestHistory)
+│   │   ├── services/       # Network testing engine (speedTestEngine.js)
+│   │   ├── App.jsx         # Root component and diagnostic test flow
+│   │   ├── index.css       # Tailwind CSS configuration and theme styling
+│   │   └── main.jsx        # React application entry point
 │   ├── package.json
 │   └── vite.config.js
-├── server/                 # Layanan backend (Node.js + Express)
-│   ├── index.js            # Endpoint pengujian latensi, unduh, unggah, dan GeoIP
+├── server/                 # Backend service (Node.js + Express)
+│   ├── index.js            # Ping, download, upload, and GeoIP endpoints
 │   └── package.json
-├── package.json            # Konfigurasi root dan skrip orkestrasi monorepo
+├── package.json            # Root configuration and monorepo orchestration scripts
 └── README.md
 ```
 
-## Prasyarat Sistem
+## System Requirements
 
-- Node.js versi 18.0.0 atau yang lebih baru
-- npm versi 9.0.0 atau yang lebih baru
+- Node.js version 18.0.0 or later
+- npm version 9.0.0 or later
 
-## Instalasi
+## Installation
 
-1. Lakukan instalasi dependensi pada direktori klien dan server:
+1. Install dependencies across client and server directories:
 
 ```bash
 cd client && npm install
@@ -53,49 +53,49 @@ cd ../server && npm install
 cd ..
 ```
 
-2. Alternatif menggunakan konfigurasi package utama:
+2. Alternatively, install via npm workspace flags:
 
 ```bash
 npm install --prefix client
 npm install --prefix server
 ```
 
-## Menjalankan Aplikasi
+## Running the Application
 
-### Mode Pengembangan (Development)
+### Development Mode
 
-Untuk menjalankan server backend dan client frontend secara bersamaan:
+To start both the backend API server and frontend development server concurrently:
 
 ```bash
 npm run dev
 ```
 
-Secara bawaan:
-- Layanan Frontend berjalan pada: `http://localhost:5173`
-- Layanan Backend berjalan pada: `http://localhost:5000`
+Default addresses:
+- Frontend application: `http://localhost:5173`
+- Backend API server: `http://localhost:5000`
 
-### Menjalankan Secara Terpisah
+### Running Services Separately
 
-Menjalankan server API:
+Run the backend server:
 ```bash
 npm run server
 ```
 
-Menjalankan server development frontend:
+Run the frontend development server:
 ```bash
 npm run client
 ```
 
-### Kompilasi Produksi (Production Build)
+### Production Build
 
-Untuk menghasilkan bundel produksi frontend yang teroptimasi:
+To generate an optimized production build for the frontend:
 
 ```bash
 npm run build
 ```
 
-Hasil kompilasi akan tersimpan pada direktori `client/dist/`.
+Compiled assets will be output to `client/dist/`.
 
-## Lisensi
+## License
 
-Proyek ini didistribusikan di bawah lisensi MIT.
+This project is distributed under the MIT License.
