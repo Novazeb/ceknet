@@ -150,7 +150,7 @@ export default function App() {
       setCurrentStage('complete');
 
       const historyEntry = {
-        timestamp: new Date().toLocaleString('id-ID', {
+        timestamp: new Date().toLocaleString('en-US', {
           dateStyle: 'short',
           timeStyle: 'short'
         }),
@@ -160,7 +160,7 @@ export default function App() {
         uploadSpeed: uploadResult.uploadSpeed,
         ip: freshNetInfo?.ip || 'N/A',
         isp: freshNetInfo?.isp || 'N/A',
-        status: 'Selesai'
+        status: 'Completed'
       };
 
       saveHistoryEntry(historyEntry);
