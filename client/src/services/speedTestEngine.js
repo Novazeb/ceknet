@@ -272,9 +272,9 @@ export async function runUploadTest(onProgress, durationSec = 7) {
 export async function getNetworkAndISPInfo() {
   let geoData = {
     ip: 'Scanning...',
-    isp: 'Memuat ISP...',
-    city: 'Memuat...',
-    country: 'Memuat...'
+    isp: 'Loading ISP...',
+    city: 'Loading...',
+    country: 'Loading...'
   };
 
   try {
@@ -298,7 +298,7 @@ export async function getNetworkAndISPInfo() {
     country: geoData.country,
     countryCode: geoData.countryCode || '',
     browserConnection: {
-      type: connection.type || 'Tidak Diketahui',
+      type: connection.type || 'Unknown',
       effectiveType: connection.effectiveType || '4g',
       downlink: connection.downlink ? `${connection.downlink} Mbps` : 'N/A',
       rtt: connection.rtt ? `${connection.rtt} ms` : 'N/A'
