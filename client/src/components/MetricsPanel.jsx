@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Radio, Activity, ArrowDown, ArrowUp, Globe, Server, MapPin, Check, X } from 'lucide-react';
+import { Radio, Activity, ArrowDown, ArrowUp, Globe, Server, MapPin } from 'lucide-react';
 
 export default function MetricsPanel({
   ping,
@@ -13,8 +13,6 @@ export default function MetricsPanel({
   isTesting,
   currentStage
 }) {
-  const browserConn = networkInfo?.browserConnection || {};
-
   // Suitability evaluation (compact, purposeful, zero-slop)
   const suitability = useMemo(() => {
     const isComplete = currentStage === 'complete';
@@ -23,16 +21,16 @@ export default function MetricsPanel({
     const videocall = uploadSpeed >= 5 && ping > 0 && ping < 50;
 
     return [
-      { name: 'Gaming Online', pass: gaming, desc: '<30ms ping, <5ms jitter' },
-      { name: 'Streaming 4K', pass: streaming, desc: '>25 Mbps download' },
-      { name: 'Video Call HD', pass: videocall, desc: '>5 Mbps upload, <50ms ping' }
+      { name: 'Online Gaming', pass: gaming, desc: '<30ms ping, <5ms jitter' },
+      { name: '4K Streaming', pass: streaming, desc: '>25 Mbps download' },
+      { name: 'HD Video Call', pass: videocall, desc: '>5 Mbps upload, <50ms ping' }
     ];
   }, [ping, jitter, downloadSpeed, uploadSpeed, currentStage]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 w-full">
       
-      {/* Metrics Row (7 Cols) */}
+      {/* Metrics Row (8 Cols) */}
       <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-3">
         
         {/* Ping */}
@@ -47,7 +45,7 @@ export default function MetricsPanel({
               <span className="text-xs font-mono font-normal text-zinc-500 ml-1">ms</span>
             </div>
             <div className="text-[11px] font-mono text-zinc-500 mt-1 truncate">
-              RTT bolak-balik
+              Round-trip RTT
             </div>
           </div>
         </div>
@@ -64,7 +62,7 @@ export default function MetricsPanel({
               <span className="text-xs font-mono font-normal text-zinc-500 ml-1">ms</span>
             </div>
             <div className="text-[11px] font-mono text-zinc-500 mt-1 truncate">
-              Stabilitas latensi
+              Latency stability
             </div>
           </div>
         </div>
@@ -81,7 +79,7 @@ export default function MetricsPanel({
               <span className="text-xs font-mono font-normal text-zinc-500 ml-1">Mbps</span>
             </div>
             <div className="text-[11px] font-mono text-zinc-500 mt-1 truncate">
-              {peakDownload > 0 ? `Peak: ${peakDownload} M` : 'Throughput unduh'}
+              {peakDownload > 0 ? `Peak: ${peakDownload} M` : 'Download throughput'}
             </div>
           </div>
         </div>
@@ -98,7 +96,7 @@ export default function MetricsPanel({
               <span className="text-xs font-mono font-normal text-zinc-500 ml-1">Mbps</span>
             </div>
             <div className="text-[11px] font-mono text-zinc-500 mt-1 truncate">
-              {peakUpload > 0 ? `Peak: ${peakUpload} M` : 'Throughput unggah'}
+              {peakUpload > 0 ? `Peak: ${peakUpload} M` : 'Upload throughput'}
             </div>
           </div>
         </div>
@@ -113,7 +111,7 @@ export default function MetricsPanel({
           <div className="flex items-center justify-between text-zinc-400 border-b border-zinc-800/80 pb-1.5">
             <span className="flex items-center gap-1.5 text-zinc-500">
               <Globe className="w-3.5 h-3.5 text-zinc-400" />
-              IP PUBLIK
+              PUBLIC IP
             </span>
             <span className="font-semibold text-zinc-200 font-num">
               {isGeoLoading ? '...' : (networkInfo?.ip || '127.0.0.1')}
@@ -123,7 +121,7 @@ export default function MetricsPanel({
           <div className="flex items-center justify-between text-zinc-400 border-b border-zinc-800/80 pb-1.5">
             <span className="flex items-center gap-1.5 text-zinc-500">
               <Server className="w-3.5 h-3.5 text-zinc-400" />
-              ISP / AS
+              ISP / ASN
             </span>
             <span className="font-semibold text-zinc-200 truncate max-w-[180px]" title={networkInfo?.isp}>
               {isGeoLoading ? '...' : (networkInfo?.isp || 'Unknown')}
@@ -133,7 +131,7 @@ export default function MetricsPanel({
           <div className="flex items-center justify-between text-zinc-400">
             <span className="flex items-center gap-1.5 text-zinc-500">
               <MapPin className="w-3.5 h-3.5 text-zinc-400" />
-              LOKASI
+              LOCATION
             </span>
             <span className="font-semibold text-zinc-200 truncate max-w-[180px]">
               {isGeoLoading ? '...' : `${networkInfo?.city || ''}${networkInfo?.countryCode ? ', ' + networkInfo.countryCode : ''}`}
@@ -157,7 +155,7 @@ export default function MetricsPanel({
             >
               <div className="font-semibold truncate">{item.name}</div>
               <div className="text-[9px] mt-0.5 opacity-80">
-                {currentStage === 'complete' ? (item.pass ? 'Optimal' : 'Kurang') : 'Siap'}
+                {currentStage === 'complete' ? (item.pass ? 'Optimal' : 'Suboptimal') : 'Ready'}
               </div>
             </div>
           ))}
