@@ -2,10 +2,11 @@
 
 @layer base {
   body {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: #f8fafc;
-    color: #0f172a;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #09090b;
+    color: #fafafa;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    overflow-x: hidden;
   }
 
   .font-num {
@@ -13,34 +14,38 @@
   }
 }
 
-/* Clean Professional UI Cards */
-.card-clean {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 1rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+/* Crisp Anti-Slop Surface */
+.surface {
+  background: #121215;
+  border: 1px solid #27272a;
+  border-radius: 0.875rem;
 }
 
-.card-clean-hover {
-  transition: all 0.2s ease-in-out;
-}
-.card-clean-hover:hover {
-  border-color: #cbd5e1;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+.surface-interactive {
+  background: #121215;
+  border: 1px solid #27272a;
+  border-radius: 0.875rem;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
-/* Scrollbar Styling */
+.surface-interactive:hover {
+  border-color: #3f3f46;
+  background: #18181b;
+}
+
+/* Subtle scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #09090b;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #27272a;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #3f3f46;
 }
+
