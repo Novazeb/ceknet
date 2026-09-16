@@ -1,5 +1,5 @@
 import React from 'react';
-import { Activity, Play, RotateCcw } from 'lucide-react';
+import { Play, RotateCcw } from 'lucide-react';
 
 export default function Header({ isTesting, currentStage, onStartTest }) {
   return (
@@ -33,7 +33,7 @@ export default function Header({ isTesting, currentStage, onStartTest }) {
                   : 'bg-zinc-600'
               }`}
             />
-            <span className="uppercase">{isTesting ? currentStage : currentStage === 'complete' ? 'selesai' : 'siap'}</span>
+            <span className="uppercase">{isTesting ? currentStage : currentStage === 'complete' ? 'completed' : 'ready'}</span>
           </div>
 
           <button
@@ -50,7 +50,7 @@ export default function Header({ isTesting, currentStage, onStartTest }) {
             ) : (
               <Play className="w-3.5 h-3.5 fill-current" />
             )}
-            <span>{isTesting ? 'PENGUJIAN' : 'MULAI TES'}</span>
+            <span>{isTesting ? 'TESTING' : 'START TEST'}</span>
           </button>
         </div>
 
