@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Header from './components/Header';
-import SpeedometerGauge from './components/SpeedometerGauge';
-import MetricsCards from './components/MetricsCards';
-import LiveChart from './components/LiveChart';
-import SuitabilityRating from './components/SuitabilityRating';
-import NetworkInfoInspector from './components/NetworkInfoInspector';
+import SpeedHero from './components/SpeedHero';
+import MetricsPanel from './components/MetricsPanel';
 import TestHistory from './components/TestHistory';
 import {
   runPingAndJitterTest,
@@ -12,7 +9,6 @@ import {
   runUploadTest,
   getNetworkAndISPInfo
 } from './services/speedTestEngine';
-import { Globe, ShieldCheck } from 'lucide-react';
 
 const LOCAL_STORAGE_KEY = 'ceknet_speedtest_history_v2';
 
@@ -29,7 +25,7 @@ export default function App() {
   const [peakDownload, setPeakDownload] = useState(0);
   const [peakUpload, setPeakUpload] = useState(0);
 
-  // Chart real-time samples
+  // Real-time samples for native SVG sparkline
   const [downloadSamples, setDownloadSamples] = useState([]);
   const [uploadSamples, setUploadSamples] = useState([]);
 
@@ -99,9 +95,7 @@ export default function App() {
     setIsGeoLoading(false);
 
     try {
-      // -------------------------------------------------------------
-      // STAGE 1: PING & JITTER TEST
-      // -------------------------------------------------------------
+      // 1. PING & JITTER TEST
       setCurrentStage('ping');
       const pingResult = await runPingAndJitterTest((prog) => {
         setPing(prog.currentPing);
@@ -112,11 +106,9 @@ export default function App() {
       setPing(pingResult.ping);
       setJitter(pingResult.jitter);
 
-      await new Promise((r) => setTimeout(r, 300));
+      await new Promise((r) => setTimeout(r, 200));
 
-      // -------------------------------------------------------------
-      // STAGE 2: DOWNLOAD SPEED TEST
-      // -------------------------------------------------------------
+      // 2. DOWNLOAD SPEED TEST
       setCurrentStage('download');
       setGaugeValue(0);
 
@@ -133,11 +125,9 @@ export default function App() {
       setPeakDownload(downloadResult.peakSpeed);
       setGaugeValue(downloadResult.downloadSpeed);
 
-      await new Promise((r) => setTimeout(r, 300));
+      await new Promise((r) => setTimeout(r, 200));
 
-      // -------------------------------------------------------------
-      // STAGE 3: UPLOAD SPEED TEST
-      // -------------------------------------------------------------
+      // 3. UPLOAD SPEED TEST
       setCurrentStage('upload');
       setGaugeValue(0);
 
@@ -156,14 +146,12 @@ export default function App() {
 
       await new Promise((r) => setTimeout(r, 200));
 
-      // -------------------------------------------------------------
-      // STAGE 4: COMPLETE & SAVE HISTORY
-      // -------------------------------------------------------------
+      // 4. COMPLETE & SAVE HISTORY
       setCurrentStage('complete');
 
       const historyEntry = {
         timestamp: new Date().toLocaleString('id-ID', {
-          dateStyle: 'medium',
+          dateStyle: 'short',
           timeStyle: 'short'
         }),
         ping: pingResult.ping,
@@ -185,86 +173,45 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans pb-16">
+    <div className="min-h-screen bg-[#09090b] text-zinc-100 flex flex-col font-sans selection:bg-zinc-800 selection:text-white pb-16">
       
-      {/* Top Header */}
+      {/* Header */}
       <Header
         isTesting={isTesting}
         currentStage={currentStage}
         onStartTest={startFullDiagnosticTest}
       />
 
-      {/* Main Container */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-8 w-full flex-grow flex flex-col gap-6">
+      {/* Main Focus Area */}
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 w-full flex-grow flex flex-col gap-4 mt-6">
         
-        {/* Top Hero Section: Speedometer Gauge + Metrics Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-          
-          {/* Speedometer Dial */}
-          <div className="lg:col-span-5 flex">
-            <SpeedometerGauge
-              value={gaugeValue}
-              stage={currentStage}
-            />
-          </div>
-
-          {/* Status Cards Grid */}
-          <div className="lg:col-span-7 flex flex-col justify-between gap-4">
-            
-            {/* Informational Header Box */}
-            <div className="card-clean p-4 flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-blue-50 text-blue-600">
-                  <Globe className="w-5 h-5" />
-                </div>
-                <div>
-                  <h2 className="text-sm font-semibold text-slate-900">
-                    Pengujian Kecepatan Internet WAN
-                  </h2>
-                  <p className="text-xs text-slate-500">
-                    Pengukuran langsung throughput fisik koneksi internet ke server CDN terdekat
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Metrics Status Cards */}
-            <MetricsCards
-              ping={ping}
-              jitter={jitter}
-              downloadSpeed={downloadSpeed}
-              uploadSpeed={uploadSpeed}
-              peakDownload={peakDownload}
-              peakUpload={peakUpload}
-              isTesting={isTesting}
-              currentStage={currentStage}
-            />
-          </div>
-
-        </div>
-
-        {/* Real-time Bandwidth Line Chart */}
-        <LiveChart
+        {/* Speed Hero: Big Typographic Readout & Native SVG Sparkline */}
+        <SpeedHero
+          isTesting={isTesting}
+          currentStage={currentStage}
+          gaugeValue={gaugeValue}
+          downloadSpeed={downloadSpeed}
+          uploadSpeed={uploadSpeed}
           downloadSamples={downloadSamples}
           uploadSamples={uploadSamples}
+          onStartTest={startFullDiagnosticTest}
         />
 
-        {/* Network Suitability Rating */}
-        <SuitabilityRating
+        {/* Metrics Panel: High-Density Latency, Throughput & Geo Details */}
+        <MetricsPanel
           ping={ping}
           jitter={jitter}
           downloadSpeed={downloadSpeed}
           uploadSpeed={uploadSpeed}
-          isComplete={currentStage === 'complete'}
+          peakDownload={peakDownload}
+          peakUpload={peakUpload}
+          networkInfo={networkInfo}
+          isGeoLoading={isGeoLoading}
+          isTesting={isTesting}
+          currentStage={currentStage}
         />
 
-        {/* Network & ISP Info Inspector */}
-        <NetworkInfoInspector
-          info={networkInfo}
-          isLoading={isGeoLoading}
-        />
-
-        {/* Test History & CSV Export */}
+        {/* Test History */}
         <TestHistory
           history={history}
           onClearHistory={handleClearHistory}
@@ -272,15 +219,11 @@ export default function App() {
 
       </main>
 
-      {/* Footer */}
-      <footer className="mt-12 border-t border-slate-200 pt-6 text-center text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <div>
-            <span className="font-semibold text-slate-700">ceknet</span> — Diagnostic Speed Test Dashboard
-          </div>
-          <div>
-            Dikembangkan dengan React & Express
-          </div>
+      {/* Minimalist Footer */}
+      <footer className="mt-12 border-t border-zinc-900 pt-6 text-center text-xs font-mono text-zinc-600">
+        <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <span>ceknet // zero-slop internet diagnostics</span>
+          <span>edge cdn & local fallback</span>
         </div>
       </footer>
 
